@@ -6,26 +6,28 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Graph graph = new Graph(11);
-        graph.addEdge(0,1);
-        graph.addEdge(0,2);
-        graph.addEdge(0,3);
-        graph.addEdge(2,6);
-        graph.addEdge(5,6);
-        graph.addEdge(1,5);
-        graph.addEdge(1,4);
-        graph.addEdge(5,7);
-        graph.addEdge(5,9);
-        graph.addEdge(4,7);
-        graph.addEdge(7,8);
-        graph.addEdge(8,9);
-        graph.addEdge(9,10);
+        Graph graph = new Graph(12);
+        graph.addEdge(0, 1);
+        graph.addEdge(0, 2);
+        graph.addEdge(0, 3);
+        graph.addEdge(2, 6);
+        graph.addEdge(5, 6);
+        graph.addEdge(1, 5);
+        graph.addEdge(1, 4);
+        graph.addEdge(5, 9);
+        graph.addEdge(5, 7);
+        graph.addEdge(4, 7);
+        graph.addEdge(7, 8);
+        graph.addEdge(8, 9);
+        graph.addEdge(9, 10);
+        graph.addEdge(4, 10);
+
 
         System.out.println("BFS");
-        System.out.println("min number of steps: "+ Main.BFS(graph,0,10));
+        System.out.println("min number of steps: " + Main.BFS(graph, 0, 10));
         System.out.println("--------------");
         System.out.println("DFS");
-        System.out.println("traversing depth first road to end included 5 steps: "+ Main.DFS(graph,0,10));
+        System.out.println("traversing depth first road to end included: " + Main.DFS(graph, 0, 10) + " steps");
 
     }
 
@@ -64,7 +66,9 @@ public class Main {
             }
         }
 
-        int length (){return index_for_new_el-index_of_front_el;}
+        int length() {
+            return index_for_new_el - index_of_front_el;
+        }
 
         void makeBigger() {
             SIZE *= 2;
@@ -101,7 +105,7 @@ public class Main {
         }
 
         int pull_last_el() {
-            if (index_for_new_el>0) {
+            if (index_for_new_el > 0) {
                 index_for_new_el--;
                 return table[index_for_new_el];
             } else {
@@ -119,7 +123,9 @@ public class Main {
             }
         }
 
-        int length (){return index_for_new_el;}
+        int length() {
+            return index_for_new_el;
+        }
 
         void makeBigger() {
             SIZE *= 2;
@@ -147,12 +153,12 @@ public class Main {
         Graph(int NoOfNodes) {
             this.NoOfNodes = NoOfNodes;
             this.tableOfNodes = new ListFifo[NoOfNodes];
-            for (int k=0; k < tableOfNodes.length; k++) {
+            for (int k = 0; k < tableOfNodes.length; k++) {
                 tableOfNodes[k] = new ListFifo();
             }
         }
 
-        void addEdge(int from, int to){
+        void addEdge(int from, int to) {
             tableOfNodes[from].add_back_el(to);
             tableOfNodes[to].add_back_el(from);
 
@@ -167,9 +173,9 @@ public class Main {
         }
     }
 
-    static int BFS (Graph graph, int start, int end){
+    static int BFS(Graph graph, int start, int end) {
 
-       System.out.println("graph: "+ graph);
+        System.out.println("graph: " + graph);
 
         boolean[] visitedNodesTable = new boolean[graph.NoOfNodes];
         int[] distanceOnNode = new int[graph.NoOfNodes];
@@ -177,24 +183,24 @@ public class Main {
         ListFifo listOfNodesToExamine = new ListFifo();
 
         listOfNodesToExamine.add_back_el(start);
-        visitedNodesTable[start] =true;
-        System.out.println("visited node"+start);
+        visitedNodesTable[start] = true;
 
-        distanceOnNode[start]=0;
+        distanceOnNode[start] = 0;
 
 
-        while (listOfNodesToExamine.length()>0){
-            System.out.println(listOfNodesToExamine.toString());
+        while (listOfNodesToExamine.length() > 0) {
             int nodeToCheck = listOfNodesToExamine.pull_first_el();
-            System.out.println("pulled to check: "+ nodeToCheck);
+            System.out.println("pulled to check: " + nodeToCheck);
 
-            for (int i =0; i < graph.tableOfNodes[nodeToCheck].length();i++){
+            for (int i = 0; i < graph.tableOfNodes[nodeToCheck].length(); i++) {
                 int nodeAdjacent = graph.tableOfNodes[nodeToCheck].get(i);
-                if (visitedNodesTable[nodeAdjacent]==false) {
-                    System.out.println("visited node"+nodeAdjacent);
+                if (visitedNodesTable[nodeAdjacent] == false) {
+                    System.out.println("in next level neighbours of node will be visited: " + nodeAdjacent);
                     listOfNodesToExamine.add_back_el(nodeAdjacent);
                     distanceOnNode[nodeAdjacent] = distanceOnNode[nodeToCheck] + 1;
-                    visitedNodesTable[nodeAdjacent]=true;
+                    System.out.println("for node : "+ nodeAdjacent+ "min distance was set equal to: " + distanceOnNode[nodeAdjacent]+" and it was assumed it is impossible to get this node faster");
+
+                    visitedNodesTable[nodeAdjacent] = true;
                     if (nodeAdjacent == end) return distanceOnNode[nodeAdjacent];
                 }
             }
@@ -202,9 +208,9 @@ public class Main {
         return -100000000;
     }
 
-    static int DFS (Graph graph, int start, int end){
+    static int DFS(Graph graph, int start, int end) {
 
-        System.out.println("graph: "+ graph);
+        System.out.println("graph: " + graph);
 
         boolean[] visitedNodesTable = new boolean[graph.NoOfNodes];
         int[] distanceOnNode = new int[graph.NoOfNodes];
@@ -212,24 +218,23 @@ public class Main {
         ListLifo listOfNodesToExamine = new ListLifo();
 
         listOfNodesToExamine.add_back_el(start);
-        visitedNodesTable[start] =true;
-        System.out.println("visited node"+start);
+        visitedNodesTable[start] = true;
 
-        distanceOnNode[start]=0;
+        distanceOnNode[start] = 0;
 
 
-        while (listOfNodesToExamine.length()>0){
-            System.out.println(listOfNodesToExamine.toString());
+        while (listOfNodesToExamine.length() > 0) {
             int nodeToCheck = listOfNodesToExamine.pull_last_el();
-            System.out.println("pulled to check: "+ nodeToCheck);
+            System.out.println("pulled to check: " + nodeToCheck);
 
-            for (int i = 0; i < graph.tableOfNodes[nodeToCheck].length();i++){
+            for (int i = 0; i < graph.tableOfNodes[nodeToCheck].length(); i++) {
                 int nodeAdjacent = graph.tableOfNodes[nodeToCheck].get(i);
-                if (visitedNodesTable[nodeAdjacent]==false) {
-                    System.out.println("visited node"+nodeAdjacent);
+                if (visitedNodesTable[nodeAdjacent] == false) {
+                    System.out.println("in next level neighbours of node will be visited: " + nodeAdjacent);
                     listOfNodesToExamine.add_back_el(nodeAdjacent);
                     distanceOnNode[nodeAdjacent] = distanceOnNode[nodeToCheck] + 1;
-                    visitedNodesTable[nodeAdjacent]=true;
+                    System.out.println("for node : "+ nodeAdjacent+ "min distance was set equal to: " + distanceOnNode[nodeAdjacent]+" and it was assumed it is impossible to get this node faster");
+                    visitedNodesTable[nodeAdjacent] = true;
                     if (nodeAdjacent == end) return distanceOnNode[nodeAdjacent];
                 }
             }
