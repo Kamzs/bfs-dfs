@@ -160,7 +160,6 @@ public class Main {
 
         void addEdge(int from, int to) {
             tableOfNodes[from].add_back_el(to);
-            tableOfNodes[to].add_back_el(from);
 
         }
 
