@@ -2,7 +2,7 @@ package com.ambro;
 
 import java.util.Arrays;
 
-public class Main {
+public class BFSandDFS {
 
     public static void main(String[] args) {
 
@@ -24,10 +24,10 @@ public class Main {
 
 
         System.out.println("BFS");
-        System.out.println("min number of steps: " + Main.BFS(graph, 0, 10));
+        System.out.println("min number of steps: " + BFSandDFS.BFS(graph, 0, 10));
         System.out.println("--------------");
         System.out.println("DFS");
-        System.out.println("traversing depth first road to end included: " + Main.DFS(graph, 0, 10) + " steps");
+        System.out.println("traversing depth first road to end included: " + BFSandDFS.DFS(graph, 0, 10) + " steps");
 
     }
 

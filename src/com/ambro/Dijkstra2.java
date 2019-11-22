@@ -2,23 +2,23 @@ package com.ambro;
 
 import java.util.Arrays;
 
-public class DijkstraTest2 {
+public class Dijkstra2 {
 
     public static void main(String[] args) {
 
-        Graph graph = new Graph(6);
-        graph.addEdge(new Edge(0, 1, 3));
-        graph.addEdge(new Edge(1, 2, 2));
-        graph.addEdge(new Edge(1, 4, 10));
-        graph.addEdge(new Edge(2, 4, 8));
-        graph.addEdge(new Edge(2, 3, 1));
-        graph.addEdge(new Edge(4, 3, 4));
-        graph.addEdge(new Edge(3, 5, 6));
-        graph.addEdge(new Edge(4, 5, 5));
+        Graph graph = new Graph(5);
+        graph.addEdge(new Edge(0, 1, 1));
+        graph.addEdge(new Edge(1, 2, 3));
+        graph.addEdge(new Edge(1, 3, 2));
+        graph.addEdge(new Edge(3, 4, 3));
+        graph.addEdge(new Edge(2, 4, 1));
 
 
-        System.out.println("BFS");
-        System.out.println("min number of steps: " + Arrays.deepToString(DijkstraTest2.BFS(graph, 0, 10)));
+        int [][] result = Dijkstra2.BFS(graph, 0, 4);
+        System.out.println(Arrays.deepToString(result));
+        for (int f = 0; f < graph.NoOfNodes; f++){
+            System.out.println("do noda: " + f + " najkrotsza droga przez " + result[f][1] + " wynoszaca " + result[f][0] );
+        }
 
     }
 

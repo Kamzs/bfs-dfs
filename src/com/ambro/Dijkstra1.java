@@ -2,29 +2,31 @@ package com.ambro;
 
 import java.util.Arrays;
 
-public class Dijkstra {
+public class Dijkstra1 {
 
     public static void main(String[] args) {
 
-        Graph graph = new Graph(12);
+        Graph graph = new Graph(11);
         graph.addEdge(new Edge(0, 1, 5));
-        graph.addEdge(new Edge(0, 2, 5));
-        graph.addEdge(new Edge(0, 3, 5));
-        graph.addEdge(new Edge(2, 6, 5));
-        graph.addEdge(new Edge(5, 6, 5));
-        graph.addEdge(new Edge(1, 5, 5));
+        graph.addEdge(new Edge(0, 2, 2));
+        graph.addEdge(new Edge(0, 3, 3));
+        graph.addEdge(new Edge(2, 6, 1));
+        graph.addEdge(new Edge(5, 6, 1));
+        graph.addEdge(new Edge(1, 5, 3));
         graph.addEdge(new Edge(1, 4, 5));
-        graph.addEdge(new Edge(5, 9, 5));
-        graph.addEdge(new Edge(5, 7, 5));
-        graph.addEdge(new Edge(4, 7, 5));
-        graph.addEdge(new Edge(7, 8, 5));
-        graph.addEdge(new Edge(8, 9, 5));
-        graph.addEdge(new Edge(9, 10, 5));
-        graph.addEdge(new Edge(4, 10, 5));
+        graph.addEdge(new Edge(5, 9, 4));
+        graph.addEdge(new Edge(5, 7, 1));
+        graph.addEdge(new Edge(4, 7, 7));
+        graph.addEdge(new Edge(7, 8, 1));
+        graph.addEdge(new Edge(8, 9, 1));
+        graph.addEdge(new Edge(9, 10, 1));
+        graph.addEdge(new Edge(4, 10, 20));
 
-        System.out.println("BFS");
-        System.out.println("min number of steps: " + Arrays.deepToString(Dijkstra.BFS(graph, 0, 10)));
-
+        int [][] result = BFS(graph, 0, 10);
+        System.out.println(Arrays.deepToString(result));
+        for (int f = 0; f < graph.NoOfNodes; f++){
+            System.out.println("do noda: " + f + " najkrotsza droga przez " + result[f][1] + " wynoszaca " + result[f][0] );
+        }
     }
 
     public static class Edge {
