@@ -14,11 +14,8 @@ public class Dijkstra2 {
         graph.addEdge(new Edge(2, 4, 1));
 
 
-        int [][] result = Dijkstra2.BFS(graph, 0, 4);
-        System.out.println(Arrays.deepToString(result));
-        for (int f = 0; f < graph.NoOfNodes; f++){
-            System.out.println("do noda: " + f + " najkrotsza droga przez " + result[f][1] + " wynoszaca " + result[f][0] );
-        }
+        int result = dijkstra(graph, 0, 4);
+        System.out.println(result);
 
     }
 
@@ -142,7 +139,7 @@ public class Dijkstra2 {
     }
 
 
-    static int[][] BFS(Graph graph, int start, int end) {
+    static int dijkstra(Graph graph, int start, int end) {
 
         System.out.println("graph: " + graph);
 
@@ -195,6 +192,6 @@ public class Dijkstra2 {
             }
 
         }
-        return distancesToNodes;
+        return distancesToNodes[end][0];
     }
 }
