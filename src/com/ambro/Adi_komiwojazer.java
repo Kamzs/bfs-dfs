@@ -3,9 +3,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
-public class shortest {
+public class Adi_komiwojazer {
 
-        static int[] tab = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        static int[] tab = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10};
         static boolean[] isVisited;
         static int minDistance = Integer.MAX_VALUE;
         static int numberOfPoints;
@@ -13,6 +13,8 @@ public class shortest {
         static int[] pointsY;
 
         public static void main(String[] args) throws FileNotFoundException {
+
+            long a = System.currentTimeMillis();
             System.setIn(new FileInputStream("src/com/ambro/text"));
             Scanner input = new Scanner(System.in);
             numberOfPoints = input.nextInt();
@@ -26,6 +28,10 @@ public class shortest {
             }
             solve(new int[numberOfPoints], 0);
             System.out.println(minDistance);
+
+            long b = System.currentTimeMillis();
+
+            System.out.println("runtime was : " + (b - a) );
         }
 
         static void solve(int[] calcTab, int depth) {
@@ -40,7 +46,7 @@ public class shortest {
                 }
             }
             if (isLast) {
-                System.out.println(Arrays.toString(calcTab));
+                //System.out.println(Arrays.toString(calcTab));
                 int distance = calculateDistance(0, 0, pointsX[calcTab[0]], pointsY[calcTab[0]]);
                 for (int i = 1; i < numberOfPoints; i++) {
                     if (distance > minDistance) continue;
