@@ -7,9 +7,12 @@ import java.util.Scanner;
 
 public class Airplanes {
 
-    int result =-100;
+    int result=-100;
 
     public static void main(String[] args) throws FileNotFoundException {
+
+        long a = System.currentTimeMillis();
+
         int[][] allSteps_events = LOAD_DATA();
         //int[] planeSetting = LOCATE_PLANE();
         int init_step =0;
@@ -18,47 +21,50 @@ public class Airplanes {
 
 
         System.out.println(Arrays.deepToString(allSteps_events));
-/*        for (int i = 0; i < 5;i++){
-            System.out.println(allSteps_events[0][i]);
-        }*/
-        //System.out.println(Arrays.toString(planeSetting));
-
         Airplanes airplanes = new Airplanes();
-        airplanes.proceed(allSteps_events,init_step, index_of_plane,current_result);
-
-
-      //  for (int p= 0; p < tables.length)
-    }
-
-    private void proceed(int[][] allSteps_events, int step, int index_of_plane, int current_result) {
-
-        if (step == allSteps_events.length) {
-            System.out.println(current_result);
-            if (current_result > result) result = current_result;
-        }
-        for (int l = step; l < allSteps_events.length; l++){
-            int stepValue = allSteps_events[l][index_of_plane];
-            if (stepValue == 2)
-            current_result -= 1;
-            else current_result += stepValue;
-        }
-        System.out.println(current_result);
+        airplanes.proceed(airplanes,allSteps_events,init_step, index_of_plane,current_result);
+        System.out.println(airplanes.result);
+        long b = System.currentTimeMillis();
+        System.out.println("runtime was : " + (b - a) +" ms");
 
     }
 
-  /*  private static int[] LOCATE_PLANE() {
-        int [] plane_setting = new int[5];
+    private void proceed(Airplanes airplanes, int[][] allSteps_events, int step, int index_of_plane, int current_result) {
+        if (current_result>-1) {
+            if (step == allSteps_events.length) {
+                //System.out.println(current_result);
+                if (current_result>result) result = current_result;
+            }
+            else {
+                int[] newIndexesOfPlane;
+                if (index_of_plane == 4) {
+                    newIndexesOfPlane = new int[2];
+                    newIndexesOfPlane[0] = index_of_plane - 1;
+                    newIndexesOfPlane[1] = index_of_plane;
+                } else if (index_of_plane == 0) {
+                    newIndexesOfPlane = new int[2];
+                    newIndexesOfPlane[0] = 0;
+                    newIndexesOfPlane[1] = 1;
+                } else {
+                    newIndexesOfPlane = new int[3];
+                    newIndexesOfPlane[0] = index_of_plane - 1;
+                    newIndexesOfPlane[1] = index_of_plane;
+                    newIndexesOfPlane[2] = index_of_plane + 1;
+                }
+                for (int index : newIndexesOfPlane) {
 
-        for (int g = 0; g < 5; g++) {
-            if (g == 2) {
-                plane_setting[g] = 5;
-            } else {
-                plane_setting[g] = 0;
+                    int stepValue = allSteps_events[step][index];
+                    int newResult;
+                    if (stepValue == 2)
+                        newResult = current_result -1;
+                    else newResult = current_result + stepValue;
+                    airplanes.proceed(airplanes,allSteps_events, step + 1, index, newResult);
+                }
             }
         }
-        return plane_setting;
+        //else System.out.println("ship destroyed");
     }
-*/
+
     public static int[][] LOAD_DATA() throws FileNotFoundException {
 
 
@@ -73,10 +79,46 @@ public class Airplanes {
                 allSteps_events[k][l] = input.nextInt();
             }
         }
-
-
-
         return allSteps_events;
+    }
+
+    class ListFiFO{
+        int SIZE = 1;
+        int [] list = new int[SIZE];
+        int index_of_first_el = 0;
+        int current_index_for_new = 0;
+
+        void add_back(int x){
+            if (current_index_for_new<SIZE){
+            list[current_index_for_new]=x;
+            current_index_for_new++;
+            }
+            else {
+                make_bigger();
+                list[current_index_for_new]=x;
+                current_index_for_new++;
+            }
+        }
+
+        int pop_first_el (){
+            index_of_first_el++;
+            return list[index_of_first_el-1];
+        }
+
+
+        int get_by_index (int index){
+            return list[index];
+        }
+
+        void make_bigger(){
+            SIZE *=2;
+            int [] newTable = new int [SIZE];
+            for (int i=0; i < list.length; i++){
+                newTable[i] = list[i];
+            }
+            list = newTable;
+        }
+
     }
 
 }
