@@ -7,62 +7,108 @@ import java.util.Scanner;
 
 public class Airplanes {
 
-    int result=-100;
+    int result=-1;
 
     public static void main(String[] args) throws FileNotFoundException {
 
         long a = System.currentTimeMillis();
 
         int[][] allSteps_events = LOAD_DATA();
-        //int[] planeSetting = LOCATE_PLANE();
         int init_step =0;
         int index_of_plane =2;
         int current_result =0;
-
+        boolean detonated = false;
 
         System.out.println(Arrays.deepToString(allSteps_events));
         Airplanes airplanes = new Airplanes();
-        airplanes.proceed(airplanes,allSteps_events,init_step, index_of_plane,current_result);
+        airplanes.proceed(airplanes,allSteps_events,init_step, index_of_plane,current_result,detonated);
         System.out.println(airplanes.result);
         long b = System.currentTimeMillis();
         System.out.println("runtime was : " + (b - a) +" ms");
 
     }
 
-    private void proceed(Airplanes airplanes, int[][] allSteps_events, int step, int index_of_plane, int current_result) {
+    private void proceed(Airplanes airplanes, int[][] allSteps_events, int step, int index_of_plane, int current_result, boolean detonated) {
         if (current_result>-1) {
             if (step == allSteps_events.length) {
-                //System.out.println(current_result);
+       //         System.out.println(current_result);
                 if (current_result>result) result = current_result;
             }
             else {
-                int[] newIndexesOfPlane;
-                if (index_of_plane == 4) {
-                    newIndexesOfPlane = new int[2];
-                    newIndexesOfPlane[0] = index_of_plane - 1;
-                    newIndexesOfPlane[1] = index_of_plane;
-                } else if (index_of_plane == 0) {
-                    newIndexesOfPlane = new int[2];
-                    newIndexesOfPlane[0] = 0;
-                    newIndexesOfPlane[1] = 1;
-                } else {
-                    newIndexesOfPlane = new int[3];
-                    newIndexesOfPlane[0] = index_of_plane - 1;
-                    newIndexesOfPlane[1] = index_of_plane;
-                    newIndexesOfPlane[2] = index_of_plane + 1;
-                }
-                for (int index : newIndexesOfPlane) {
 
-                    int stepValue = allSteps_events[step][index];
-                    int newResult;
-                    if (stepValue == 2)
-                        newResult = current_result -1;
-                    else newResult = current_result + stepValue;
-                    airplanes.proceed(airplanes,allSteps_events, step + 1, index, newResult);
+                    int[] newIndexesOfPlane;
+                    if (index_of_plane == 4) {
+                        newIndexesOfPlane = new int[2];
+                        newIndexesOfPlane[0] = index_of_plane - 1;
+                        newIndexesOfPlane[1] = index_of_plane;
+                    } else if (index_of_plane == 0) {
+                        newIndexesOfPlane = new int[2];
+                        newIndexesOfPlane[0] = 0;
+                        newIndexesOfPlane[1] = 1;
+                    } else {
+                        newIndexesOfPlane = new int[3];
+                        newIndexesOfPlane[0] = index_of_plane - 1;
+                        newIndexesOfPlane[1] = index_of_plane;
+                        newIndexesOfPlane[2] = index_of_plane + 1;
+                    }
+
+                if (detonated==true) {
+                    for (int index : newIndexesOfPlane) {
+
+                        int stepValue = allSteps_events[step][index];
+                        int newResult;
+                        if (stepValue == 2)
+                            newResult = current_result - 1;
+                        else newResult = current_result + stepValue;
+                        airplanes.proceed(airplanes, allSteps_events, step + 1, index, newResult, detonated);
+                    }
+                }
+                else {
+                    for (int z = 0; z < 2; z++) {
+                        if (z == 0) {
+                            for (int index : newIndexesOfPlane) {
+
+                                int stepValue = allSteps_events[step][index];
+                                int newResult;
+                                if (stepValue == 2)
+                                    newResult = current_result - 1;
+                                else newResult = current_result + stepValue;
+                                airplanes.proceed(airplanes, allSteps_events, step + 1, index, newResult, detonated);
+                            }
+                        } else {
+                            int[][] tableAfterBombDetonation = new int[allSteps_events.length][5];
+                            for (int k = 0; k < allSteps_events.length; k++) {
+                                for (int l = 0; l < 5; l++) {
+                                   tableAfterBombDetonation[k][l] = allSteps_events[k][l];
+                                }
+                            }
+                  //          System.out.println(Arrays.deepToString(allSteps_events));
+                 //           System.out.println(Arrays.deepToString(tableAfterBombDetonation));
+                            for (int k = step; k < step + 5 && k < allSteps_events.length; k++) {
+                                for (int l = 0; l < 5; l++) {
+                                    if (allSteps_events[k][l] == 2) tableAfterBombDetonation[k][l] = 0;
+                                }
+                            }
+               //             System.out.println(Arrays.deepToString(tableAfterBombDetonation));
+
+                            for (int index : newIndexesOfPlane) {
+
+                                int stepValue = tableAfterBombDetonation[step][index];
+                                int newResult;
+                                if (stepValue == 2)
+                                    newResult = current_result - 1;
+                                else newResult = current_result + stepValue;
+                                detonated = true;
+                                airplanes.proceed(airplanes, tableAfterBombDetonation, step + 1, index, newResult,detonated);
+                            }
+
+                        }
+                    }
+                }
+
                 }
             }
-        }
-        //else System.out.println("ship destroyed");
+   //     else System.out.println("ship destroyed");
     }
 
     public static int[][] LOAD_DATA() throws FileNotFoundException {
