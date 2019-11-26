@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class permute {
+public class PermutationAlgorithm {
     public static void main(String[] args) {
-        permute permute = new permute();
-        permute.listPermutations(new int [] {1,2,3,4});
+        PermutationAlgorithm PermutationAlgorithm = new PermutationAlgorithm();
+        PermutationAlgorithm.listPermutations(new int [] {1,2,3,4});
     }
     public void listPermutations(int[] a) {
         ArrayList<int[]> results= new ArrayList<int[]>();

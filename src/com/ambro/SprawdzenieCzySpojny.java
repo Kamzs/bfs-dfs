@@ -2,7 +2,7 @@ package com.ambro;
 
 import java.util.Arrays;
 
-public class spojnosc {
+public class SprawdzenieCzySpojny {
 
     public static void main(String[] args) {
 
@@ -32,7 +32,7 @@ public class spojnosc {
         graph.addEdge(3, 2);
 
         System.out.println("DFS");
-        int noOfVisited = spojnosc.DFS(graph, 0);
+        int noOfVisited = SprawdzenieCzySpojny.DFS(graph, 0);
         if (noOfVisited==graph.NoOfNodes) System.out.println("spojny");
         else System.out.println(noOfVisited);
 
